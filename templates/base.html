@@ -7,8 +7,8 @@
   <meta charset="utf-8" />
   <meta content="width=device-width, initial-scale=1" name="viewport" />
   <meta content="#ffffff" name="theme-color" />
-  <meta content="#da532c" name="msapplication-TileColor" />
-
+  <!-- meta content="#da532c" name="msapplication-TileColor" /-->
+  <meta content="#fffff" name="msapplication-TileColor" />
   {% if config.extra.favicon.webmanifest %}
   <link href='{{ config.extra.favicon.webmanifest }}' rel="manifest" />
   {% endif %}
@@ -46,20 +46,6 @@
     {% endblock title %}
   </title>
 
-  {% block analytics %}
-  {% if config.extra.analytics.google %}
-  <script async src="https://www.googletagmanager.com/gtag/js?id={{ config.extra.analytics.google }}"></script>
-  <script type="text/javascript">
-    window.dataLayer = window.dataLayer || [];
-    function gtag() {
-      dataLayer.push(arguments);
-    }
-    gtag("js", new Date());
-    gtag("config", "{{ config.extra.analytics.google }}");
-  </script>
-  {% endif %}
-  {% endblock analytics %}
-
   {% if config.extra.katex.enabled %}
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css" integrity="sha384-R4558gYOUz8mP9YWpZJjofhk+zx0AS11p36HnD2ZKj/6JR5z27gSSULCNHIRReVs" crossorigin="anonymous">
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js" integrity="sha384-z1fJDqw8ZApjGO3/unPWUPsIymfsJmyrDVWC8Tv/a1HeOtGmkwNd/7xUS0Xcnvsx" crossorigin="anonymous"></script>
@@ -72,10 +58,9 @@
 </head>
 
 <body class="has-background-white">
-  <nav aria-label="section navigation" class="navbar is-light" role="navigation">
+  <nav aria-label="section navigation" class="navbar is-white" role="navigation">
     <div class="container">
       <div class="navbar-brand">
-        <a class="navbar-item is-size-5 has-text-weight-bold" href="{{config.base_url}}">{{ config.title }}</a>
         <a aria-expanded="false" aria-label="menu" class="navbar-burger burger" data-target="navMenu" role="button">
           <span aria-hidden="true"></span>
           <span aria-hidden="true"></span>
@@ -83,7 +68,7 @@
         </a>
       </div>
       <div class="navbar-menu" id="navMenu">
-        <div class="navbar-end has-text-centered">
+        <div class="navbar-start has-text-centered">
           {% for item in config.extra.navbar_items %}
           {% if lang == item.code %}
           {% for nav in item.nav_items %}
@@ -93,17 +78,12 @@
           {% endfor %}
           {% endif %}
           {% endfor %}
-          <a class="navbar-item" id="nav-search" title="Search" data-target="#search-modal">
-            <span class="icon">
-              <i class="fas fa-search"></i>
-            </span>
-          </a>
-          <a class="navbar-item" id="dark-mode" title="Switch to dark theme">
-            <span class="icon">
-              <i class="fas fa-adjust"></i>
-            </span>
-          </a>
         </div>
+      </div>
+      <div class="navbar-menu is-active" id="socialMenu">
+	<div class="navbar-end has-text-centered">
+          {{ macros:: social_links( social_config=config.extra.social) }}
+	</div>
       </div>
     </div>
   </nav>
@@ -113,29 +93,6 @@
 
   {% block content %}
   {% endblock %}
-
-  {% block search %}
-  <section class="modal" id="search-modal">
-    <div class="modal-background"></div>
-    <div class="modal-card">
-      <header class="modal-card-head">
-        <p class="modal-card-title">Search</p>
-      </header>
-      <section class="modal-card-body">
-        <div class="field mb-2">
-          <div class="control">
-            <input class="input" id="search" placeholder="Search this website." type="search" />
-          </div>
-        </div>
-        <div class="search-results">
-          <div class="search-results__items"></div>
-        </div>
-      </section>
-    </div>
-    <button aria-label="close" class="modal-close is-large"></button>
-  </section>
-  {% endblock %}
-
 
   {% block pagination %}
   {% if paginator.previous or paginator.next %}
@@ -175,23 +132,13 @@
   <footer class="footer py-4">
     <div class="content has-text-centered">
       <p>
-        Built with
-        <span class="icon-text">
-          <span class="icon">
-            <i class="fas fa-code"></i>
-          </span>
-          <span>code</span>
-        </span>
-        and
-        <span class="icon-text">
-          <span class="icon">
-            <i class="fas fa-heart"></i>
-          </span>
-          <span>love</span>
-        </span>
-      </p>
-      <p>
-        Powered by <a href="getzola.org">Zola</a>
+      <style>
+	a {
+	color: inherit;
+	}
+	</style>
+      Built with <a href="https://rustlang.org"><b>Rust</b></a> | 
+		      Powered by <a href="https://getzola.org"><b>Zola</b></a>
       </p>
     </div>
   </footer>
